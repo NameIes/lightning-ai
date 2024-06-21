@@ -1,10 +1,10 @@
 import os
-import sys
 import colorama
 import cutie
 from time import sleep
 from pathlib import Path
 from string import ascii_letters, digits
+from actions.start import start
 
 colorama.init()
 
@@ -69,14 +69,16 @@ def show_menu():
         'Exit',
     ]
     menu_functions = [
-        lambda: print('1'),
+        start,
         lambda: print('2'),
         lambda: print('3'),
         lambda: print('4'),
         close,
     ]
 
-    menu_functions[cutie.select(menu_labels)]()
+    while True:
+        menu_functions[cutie.select(menu_labels)]()
+        os.system('cls')
 
 
 if __name__ == '__main__':
