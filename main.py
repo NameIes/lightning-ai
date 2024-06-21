@@ -4,7 +4,9 @@ import cutie
 from time import sleep
 from pathlib import Path
 from string import ascii_letters, digits
+from core.storage import Storage
 from actions.start import start
+from actions.collect_dataset import collect_dataset
 
 colorama.init()
 
@@ -13,6 +15,8 @@ def check_lightning_ai() -> None:
     print(colorama.Fore.BLUE + 'Checking Lightning AI...' + colorama.Style.RESET_ALL)
 
     base_dir = Path(__file__).parent
+    Storage().set_data('base_dir', base_dir)
+
     allowed_chars = ascii_letters + digits + '.:/\\-_ '
     for char in str(base_dir):
         if char not in allowed_chars:
@@ -70,7 +74,7 @@ def show_menu() -> None:
     ]
     menu_functions = [
         start,
-        lambda: print('2'),
+        collect_dataset,
         lambda: print('3'),
         lambda: print('4'),
         close,
