@@ -63,7 +63,7 @@ def collect_dataset() -> None:
 
     Storage().set_data('lightning_started', True)
     while Storage().data['lightning_started']:
-        img = take_screenshot(sct, 'firefox.exe')
+        img = take_screenshot(sct, 'cs2.exe')
         resized_image, _, _ = resize_image(img)
         cv2.imwrite(str(dataset_folder / f'{counter}.jpg'), resized_image)
         counter += 1

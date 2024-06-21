@@ -67,11 +67,12 @@ def start() -> None:
     thread = start_keyboard_listener()
 
     Storage().set_data('lightning_started', True)
+    model = YOLO('./models/pretraining.pt')
+    model.to('cuda')
     while Storage().data['lightning_started']:
-        img = take_screenshot(sct, 'firefox.exe')
+        img = take_screenshot(sct, 'cs2.exe')
         resized_image, orig_size, new_size = resize_image(img)
 
-        model = YOLO('./models/pretraining.pt')
         results = model(resized_image, imgsz=new_size)[0]
 
         boxes = results.boxes.cpu().numpy()
