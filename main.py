@@ -9,7 +9,7 @@ from actions.start import start
 colorama.init()
 
 
-def check_lightning_ai():
+def check_lightning_ai() -> None:
     print(colorama.Fore.BLUE + 'Checking Lightning AI...' + colorama.Style.RESET_ALL)
 
     base_dir = Path(__file__).parent
@@ -32,7 +32,7 @@ def check_lightning_ai():
         exit()
 
 
-def check_cs2():
+def check_cs2() -> None:
     # Check if steam installed
     # Find steam path
     # Check if cs2 installed
@@ -41,7 +41,7 @@ def check_cs2():
     sleep(1)
 
 
-def check_gsi():
+def check_gsi() -> None:
     # Add gsi to start arguments of cs2
     # Copy gsi to cs2 folder
     # Copy cs2 sensivity to config folder
@@ -49,18 +49,18 @@ def check_gsi():
     sleep(1)
 
 
-def print_checks_passed():
+def print_checks_passed() -> None:
     print(colorama.Fore.GREEN + 'All checks passed. Starting...' + colorama.Style.RESET_ALL)
     sleep(1)
     os.system('cls')
 
 
-def close():
+def close() -> None:
     os.system('cls')
     exit()
 
 
-def show_menu():
+def show_menu() -> None:
     menu_labels = [
         'Start',
         'Collect dataset for training',

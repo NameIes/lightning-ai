@@ -10,7 +10,7 @@ EnumWindowsProc = ctypes.WINFUNCTYPE(ctypes.c_bool, ctypes.POINTER(ctypes.c_int)
 IsWindowVisible = ctypes.windll.user32.IsWindowVisible
 
 
-def get_pid_by_name(process_name):
+def get_pid_by_name(process_name: str) -> list[int]:
     pids = []
 
     for proc in psutil.process_iter():
@@ -20,7 +20,7 @@ def get_pid_by_name(process_name):
     return pids
 
 
-def get_hwnds_for_pid(pid):
+def get_hwnds_for_pid(pid: int) -> list[int]:
     def callback(hwnd, hwnds):
         _, found_pid = win32process.GetWindowThreadProcessId(hwnd)
 
@@ -32,7 +32,7 @@ def get_hwnds_for_pid(pid):
     return hwnds
 
 
-def get_rect_by_hwnd(hwnd):
+def get_rect_by_hwnd(hwnd: int) -> dict:
     rect = ctypes.wintypes.RECT()
     ctypes.windll.user32.GetWindowRect(hwnd, ctypes.pointer(rect))
 
@@ -44,7 +44,7 @@ def get_rect_by_hwnd(hwnd):
     }
 
 
-def get_rect_by_name(process_name='cs2.exe'):
+def get_rect_by_name(process_name: str = 'cs2.exe') -> dict:
     pids = get_pid_by_name(process_name)
 
     for pid in pids:

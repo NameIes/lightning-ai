@@ -1,14 +1,14 @@
 import os
 import cv2
 import numpy as np
+from typing import Optional
 from pynput import keyboard
 from mss import mss
-from mss.base import MSSBase
 from threading import Thread
 from colorama import Fore, Style
 from ultralytics import YOLO
-from utils.window_box import get_rect_by_name
 from core.storage import Storage
+from utils.capture import take_screenshot, resize_image
 
 
 def print_info() -> None:
@@ -34,30 +34,7 @@ def start_keyboard_listener() -> Thread:
     return thread
 
 
-def take_screenshot(sct: MSSBase) -> cv2.typing.MatLike:
-    box = get_rect_by_name('firefox.exe')
-    sct_img = sct.grab(box)
-    img = np.array(sct_img)
-    if img.shape[2] == 4:
-        img = cv2.cvtColor(img, cv2.COLOR_BGRA2BGR)
-
-    return img
-
-
-def resize_image(img: cv2.typing.MatLike) -> tuple[cv2.typing.MatLike, tuple, tuple]:
-    height, width = img.shape[:2]
-    if width >= height:
-        new_width = 640
-        new_height = int((640 / width) * height)
-    else:
-        new_height = 640
-        new_width = int((640 / height) * width)
-    resized_image = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
-
-    return resized_image, (width, height), (new_width, new_height)
-
-
-def transform_YOLO_boxes(boxes, orig_size, new_size):
+def transform_YOLO_boxes(boxes: Optional[np.array], orig_size: tuple, new_size: tuple) -> list[int, int, int, int, float, int]:
     orig_width, orig_height = orig_size
     new_width, new_height = new_size
     scale_x = orig_width / new_width
@@ -76,7 +53,7 @@ def transform_YOLO_boxes(boxes, orig_size, new_size):
     return transformed_boxes
 
 
-def place_results(boxes, img):
+def place_results(boxes: list, img: cv2.typing.MatLike) -> None:
     for box in boxes:
         x1, y1, x2, y2, conflidense, class_id = box
         cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
@@ -84,14 +61,14 @@ def place_results(boxes, img):
         cv2.putText(img, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
 
 
-def start():
+def start() -> None:
     sct = mss()
     print_info()
     thread = start_keyboard_listener()
 
     Storage().set_data('lightning_started', True)
     while Storage().data['lightning_started']:
-        img = take_screenshot(sct)
+        img = take_screenshot(sct, 'firefox.exe')
         resized_image, orig_size, new_size = resize_image(img)
 
         model = YOLO('./models/pretraining.pt')
