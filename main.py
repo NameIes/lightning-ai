@@ -7,6 +7,7 @@ from string import ascii_letters, digits
 from core.storage import Storage
 from actions.start import start
 from actions.collect_dataset import collect_dataset
+from actions.prepare_dataset import prepare_dataset
 
 colorama.init()
 
@@ -75,7 +76,7 @@ def show_menu() -> None:
     menu_functions = [
         start,
         collect_dataset,
-        lambda: print('3'),
+        prepare_dataset,
         lambda: print('4'),
         close,
     ]
