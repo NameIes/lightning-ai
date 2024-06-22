@@ -1,6 +1,7 @@
 import os
 import colorama
 import cutie
+import pyuac
 from time import sleep
 from pathlib import Path
 from string import ascii_letters, digits
@@ -8,6 +9,7 @@ from core.storage import Storage
 from actions.start import start
 from actions.collect_dataset import collect_dataset
 from actions.prepare_dataset import prepare_dataset
+from actions.train_model import train_model
 
 colorama.init()
 
@@ -69,7 +71,8 @@ def show_menu() -> None:
     menu_labels = [
         'Start',
         'Collect dataset for training',
-        'Prepare dataset and train',
+        'Prepare dataset',
+        'Train model',
         'Settings',
         'Exit',
     ]
@@ -77,6 +80,7 @@ def show_menu() -> None:
         start,
         collect_dataset,
         prepare_dataset,
+        train_model,
         lambda: print('4'),
         close,
     ]

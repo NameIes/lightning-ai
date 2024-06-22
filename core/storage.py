@@ -14,7 +14,7 @@ class Storage(metaclass=SingletonMeta):
         self.data: dict = {
             'lightning_started': False,
             'sensitivity': 0.5,
-            'team': 0,
+            'team': 'off',
             'round_playing': False,
         }
 
