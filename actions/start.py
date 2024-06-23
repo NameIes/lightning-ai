@@ -110,7 +110,7 @@ def start() -> None:
         for box in transformed_boxes:
             if (int(box[5]) in (1, 2) and Storage().data['team'] == 't') or Storage().data['team'] == 'all':
                 rects.append(Rect(box[0], box[1], box[2], box[3], box[4], box[5]))
-            if int(box[5]) in (3, 4) and Storage().data['team'] == 'ct' or Storage().data['team'] == 'all':
+            if int(box[5]) in (2, 4) and Storage().data['team'] == 'ct' or Storage().data['team'] == 'all':
                 rects.append(Rect(box[0], box[1], box[2], box[3], box[4], box[5]))
 
         half = (orig_size[0] // 2, orig_size[1] // 2)

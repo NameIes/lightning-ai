@@ -12,14 +12,16 @@ def take_screenshot(sct: MSSBase, process_name: str) -> cv2.typing.MatLike:
     return img
 
 
-def resize_image(img: cv2.typing.MatLike) -> tuple[cv2.typing.MatLike, tuple, tuple]:
+def resize_image(img: cv2.typing.MatLike, size: tuple) -> tuple[cv2.typing.MatLike, tuple, tuple]:
     height, width = img.shape[:2]
-    if width >= height:
-        new_width = 640
-        new_height = int((640 / width) * height)
-    else:
-        new_height = 640
-        new_width = int((640 / height) * width)
+    # if width >= height:
+    #     new_width = 640
+    #     new_height = int((640 / width) * height)
+    # else:
+    #     new_height = 640
+    #     new_width = int((640 / height) * width)
+    new_width = size[0]
+    new_height = size[0]
     resized_image = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
     if resized_image.shape[2] == 4:
         resized_image = cv2.cvtColor(resized_image, cv2.COLOR_BGRA2BGR)

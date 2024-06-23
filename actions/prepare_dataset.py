@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from colorama import Fore, Style
+from core.storage import Storage
 
 
 def print_info() -> None:

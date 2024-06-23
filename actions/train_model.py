@@ -24,8 +24,9 @@ def train_model() -> None:
         data=str(selected_dataset / 'data.yaml'),
         epochs=100,
         batch=8,
-        imgsz=(640, 369),
-        device='cuda'
+        imgsz=(640, 640),
+        device='cuda',
+        name='trained',
     )
 
     print(Fore.GREEN + 'Model trained successfully.' + Style.RESET_ALL)
