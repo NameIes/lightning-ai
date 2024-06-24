@@ -11,6 +11,7 @@ from core.storage import Storage
 from utils.capture import take_screenshot, resize_image
 from utils.move_mouse import move_mouse, mouse_click
 from core.rect import Rect
+from core.gsi_server import GSIServer, RequestHandler
 
 
 def print_info() -> None:
@@ -88,6 +89,10 @@ def start() -> None:
     print_info()
     thread = start_keyboard_listener()
 
+    gsi_server = GSIServer(('localhost', 8003), 'MYTOKENHERE', RequestHandler)
+    thread2 = Thread(target=gsi_server.serve_forever)
+    thread2.start()
+
     Storage().set_data('lightning_started', True)
     model = YOLO('./models/best.pt')
     model.to('cuda')
@@ -131,3 +136,5 @@ def start() -> None:
 
     cv2.destroyAllWindows()
     thread.join()
+    thread2.join()
+    gsi_server.server_close()
