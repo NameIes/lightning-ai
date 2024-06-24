@@ -1,6 +1,7 @@
 import os
 import colorama
 import cutie
+import shutil
 from time import sleep
 from pathlib import Path
 from string import ascii_letters, digits
@@ -9,7 +10,7 @@ from actions.start import start
 from actions.collect_dataset import collect_dataset
 from actions.prepare_dataset import prepare_dataset
 from actions.train_model import train_model
-from utils.steam import get_cs2_path, get_steam_path
+from utils.steam import get_cs2_path, get_steam_path, get_gsi_config_path
 
 colorama.init()
 
@@ -60,11 +61,19 @@ def check_cs2() -> None:
 
 
 def check_gsi() -> None:
-    # Add gsi to start arguments of cs2
-    # Copy gsi to cs2 folder
-    # Copy cs2 sensivity to config folder
     print(colorama.Fore.LIGHTBLUE_EX + 'Checking GSI installed...' + colorama.Style.RESET_ALL)
-    sleep(1)
+
+    cs2_gsi = get_gsi_config_path()
+    if not cs2_gsi.exists():
+        cs2_gsi.parent.mkdir(parents=True, exist_ok=True)
+    lightning_gsi = Storage().data['base_dir'] / 'config' / 'gamestate_integration_GSI.cfg'
+
+    if not lightning_gsi.exists():
+        print(colorama.Fore.RED + 'GSI config not found. Please reinstall Lightning AI.' + colorama.Style.RESET_ALL)
+        exit()
+
+    if cs2_gsi.read_text() != lightning_gsi.read_text():
+        shutil.copy(lightning_gsi, cs2_gsi)
 
 
 def print_checks_passed() -> None:

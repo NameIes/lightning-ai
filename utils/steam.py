@@ -5,7 +5,8 @@ from pathlib import Path
 
 CS2_APP_ID = '730'
 STEAM_REGISTRY_KEY = "SOFTWARE\\WOW6432Node\\Valve\\Steam"
-CS2_PATH = "\\steamapps\\common\\cs2\\"
+CS2_PATH = "\\steamapps\\common\\cs2"
+GSI_PATH = "\\game\\cs2\\cfg\\gamestate_integration_GSI.cfg"
 LIBRARY_FOLDERS_PATH = "\\steamapps\\libraryfolders.vdf"
 APP_MANIFEST_PATH = f"\\steamapps\\appmanifest_{CS2_APP_ID}.acf"
 
@@ -30,3 +31,7 @@ def get_steam_library_path(steam_path: Path) -> Path:
 
 def get_cs2_path() -> Path:
     return get_steam_library_path(get_steam_path()) / CS2_PATH
+
+
+def get_gsi_config_path() -> Path:
+    return get_cs2_path() / GSI_PATH
