@@ -52,5 +52,6 @@ tzdata==2024.1
 ultralytics==8.2.38
 ultralytics-thop==2.0.0
 urllib3==2.2.2
+vdf==3.4
 werkzeug==3.0.3
 windows-curses==2.3.3

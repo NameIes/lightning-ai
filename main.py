@@ -1,7 +1,6 @@
 import os
 import colorama
 import cutie
-import pyuac
 from time import sleep
 from pathlib import Path
 from string import ascii_letters, digits
@@ -10,12 +9,13 @@ from actions.start import start
 from actions.collect_dataset import collect_dataset
 from actions.prepare_dataset import prepare_dataset
 from actions.train_model import train_model
+from utils.steam import get_cs2_path, get_steam_path
 
 colorama.init()
 
 
 def check_lightning_ai() -> None:
-    print(colorama.Fore.BLUE + 'Checking Lightning AI...' + colorama.Style.RESET_ALL)
+    print(colorama.Fore.LIGHTBLUE_EX + 'Checking Lightning AI...' + colorama.Style.RESET_ALL)
 
     base_dir = Path(__file__).parent
     Storage().set_data('base_dir', base_dir)
@@ -26,33 +26,44 @@ def check_lightning_ai() -> None:
             print(base_dir)
             print(colorama.Fore.RED + 'Path to Lightning AI contains invalid characters.' + \
                 colorama.Style.RESET_ALL)
-            print(colorama.Fore.BLUE + 'Allowed characters are: ' + colorama.Fore.LIGHTWHITE_EX + \
+            print(colorama.Fore.LIGHTBLUE_EX + 'Allowed characters are: ' + colorama.Fore.LIGHTWHITE_EX + \
                 ' '.join(allowed_chars) + colorama.Style.RESET_ALL)
             exit()
 
     if not (base_dir / 'models' / 'pretraining.pt').exists():
         print(colorama.Fore.RED + 'Lightning AI model not found.' + colorama.Style.RESET_ALL)
-        print(colorama.Fore.BLUE + 'You can download it from ' + colorama.Fore.LIGHTWHITE_EX + \
+        print(colorama.Fore.LIGHTBLUE_EX + 'You can download it from ' + colorama.Fore.LIGHTWHITE_EX + \
             'https://lightning.ai' + colorama.Style.RESET_ALL)
-        print(colorama.Fore.BLUE + 'Then place it in ' + colorama.Fore.YELLOW + \
-            'models' + colorama.Fore.BLUE + ' folder.' + colorama.Style.RESET_ALL)
+        print(colorama.Fore.LIGHTBLUE_EX + 'Then place it in ' + colorama.Fore.YELLOW + \
+            'models' + colorama.Fore.LIGHTBLUE_EX + ' folder.' + colorama.Style.RESET_ALL)
         exit()
 
 
 def check_cs2() -> None:
-    # Check if steam installed
-    # Find steam path
-    # Check if cs2 installed
-    # Find cs2 path
-    print(colorama.Fore.BLUE + 'Checking Counter Strike 2 exists...' + colorama.Style.RESET_ALL)
-    sleep(1)
+    print(colorama.Fore.LIGHTBLUE_EX + 'Checking Counter Strike 2 exists...' + colorama.Style.RESET_ALL)
+
+    try:
+        steam = get_steam_path()
+        if not steam.exists():
+            raise OSError()
+    except OSError:
+        print(colorama.Fore.RED + 'Steam not found.' + colorama.Style.RESET_ALL)
+        exit()
+
+    try:
+        cs2 = get_cs2_path()
+        if not cs2.exists():
+            raise FileNotFoundError()
+    except FileNotFoundError:
+        print(colorama.Fore.RED + 'Counter Strike 2 not found.' + colorama.Style.RESET_ALL)
+        exit()
 
 
 def check_gsi() -> None:
     # Add gsi to start arguments of cs2
     # Copy gsi to cs2 folder
     # Copy cs2 sensivity to config folder
-    print(colorama.Fore.BLUE + 'Checking GSI installed...' + colorama.Style.RESET_ALL)
+    print(colorama.Fore.LIGHTBLUE_EX + 'Checking GSI installed...' + colorama.Style.RESET_ALL)
     sleep(1)
 
 
