@@ -34,7 +34,7 @@ def start() -> None:
     gsi_server.start()
 
     detection = YOLODetection((1280, 1280), data_storage['settings']['process_name'])
-    lightning = Lightning(mouse, detection.screensize)
+    lightning = Lightning(mouse)
     mouse.start(lightning)
 
     try:
