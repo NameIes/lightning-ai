@@ -26,17 +26,17 @@ def settings() -> None:
                 str(Storage()['settings']['aim_type']) +
                 Style.RESET_ALL
             ),
-            'AIM Max Distance: {}'.format(
+            'AIM Max Distance: {} pixels'.format(
                 Fore.YELLOW +
                 str(Storage()['settings']['aim_max_distance']) +
                 Style.RESET_ALL
             ),
-            'AIM Priority: {}'.format(
+            'AIM Priority: {}. Don\'t work with \'triggerbot\'.'.format(
                 Fore.YELLOW +
                 str(Storage()['settings']['aim_priority']) +
                 Style.RESET_ALL
             ),
-            'AIM Delay: {}'.format(
+            'AIM Delay: {} ms'.format(
                 Fore.YELLOW +
                 str(Storage()['settings']['aim_delay']) +
                 Style.RESET_ALL
