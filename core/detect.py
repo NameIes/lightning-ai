@@ -87,3 +87,4 @@ class YOLODetection:
 
     def stop(self) -> None:
         cv2.destroyAllWindows()
+        print('YOLO Detection stopped.')

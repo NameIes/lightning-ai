@@ -31,3 +31,4 @@ class KeyboardListener:
 
     def stop(self) -> None:
         self.thread.join()
+        print('Keyboard listener stopped.')

@@ -49,3 +49,4 @@ class GSIServerManager:
     def stop(self):
         self.server.server_close()
         self._thread.join()
+        print('GSI Server stopped.')
