@@ -54,4 +54,4 @@ def get_rect_by_name(process_name: str = 'cs2.exe') -> dict:
             if IsWindowVisible(hwnd):
                 return get_rect_by_hwnd(hwnd)
 
-    raise Exception('No window found.')
+    raise Exception('Cannot find window by process name {}.'.format(process_name))

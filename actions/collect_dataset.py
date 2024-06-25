@@ -1,5 +1,6 @@
 import os
 import cv2
+import msvcrt
 from colorama import Fore, Style
 from pathlib import Path
 from pynput import keyboard
@@ -62,13 +63,22 @@ def collect_dataset() -> None:
     detect = YOLODetection((1280, 1280), st['settings']['process_name'])
 
     st['lightning_started'] = True
-    while st['lightning_started']:
-        img = detect.take_screenshot()
-        resized_image, _, _ = detect.resize_image(img, (640, 640))
-        cv2.imwrite(str(dataset_folder / f'{counter}_640.jpg'), resized_image)
-        resized_image, _, _ = detect.resize_image(img, (1280, 1280))
-        cv2.imwrite(str(dataset_folder / f'{counter}_1280.jpg'), resized_image)
-        counter += 1
-        sleep(0.5)
+    try:
+        while st['lightning_started']:
+            img = detect.take_screenshot()
+            resized_image, _, _ = detect.resize_image(img, (640, 640))
+            cv2.imwrite(str(dataset_folder / f'{counter}_640.jpg'), resized_image)
+            resized_image, _, _ = detect.resize_image(img, (1280, 1280))
+            cv2.imwrite(str(dataset_folder / f'{counter}_1280.jpg'), resized_image)
+            counter += 1
+            sleep(0.5)
+    except KeyboardInterrupt:
+        st['lightning_started'] = False
+        print(Style.RESET_ALL + 'Lightning AI stopped.')
+    except Exception as e:
+        st['lightning_started'] = False
+        print(Fore.RED + 'Lightning AI exception: ' + str(e) + Style.RESET_ALL)
+        print('Press any key to continue...')
+        msvcrt.getch()
 
     thread.join()

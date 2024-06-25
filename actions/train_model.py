@@ -1,4 +1,5 @@
 import cutie
+import msvcrt
 from pathlib import Path
 from colorama import Fore, Style
 from ultralytics import YOLO
@@ -24,8 +25,8 @@ def print_selection() -> Path:
 def train_model() -> None:
     selected_dataset = print_selection()
     if selected_dataset is None:
-        print(Fore.GREEN + 'Press any key and Enter to exit.' + Style.RESET_ALL)
-        input()
+        print(Fore.GREEN + 'Press any key to continue...' + Style.RESET_ALL)
+        msvcrt.getch()
         return
 
     model = YOLO(Path(Storage()['base_dir']) / 'models' / 'pretraining.pt')
