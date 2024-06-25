@@ -13,6 +13,7 @@ from actions.start import start
 from actions.collect_dataset import collect_dataset
 from actions.prepare_dataset import prepare_dataset
 from actions.train_model import train_model
+from actions.settings import settings
 from utils.steam import get_cs2_path, get_steam_path, get_gsi_config_path
 
 colorama.init()
@@ -115,7 +116,7 @@ def show_menu() -> None:
         collect_dataset,
         prepare_dataset,
         train_model,
-        lambda: print('4'),
+        settings,
         close,
     ]
 
