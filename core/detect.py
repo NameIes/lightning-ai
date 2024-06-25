@@ -4,6 +4,7 @@ from mss import mss
 from typing import Optional
 from ultralytics import YOLO
 from core.storage import Storage
+from core.rect import Rect
 from utils.window_box import get_rect_by_name
 
 
@@ -59,7 +60,7 @@ class YOLODetection:
             x2 = int(x2 * scale_x)
             y1 = int(y1 * scale_y)
             y2 = int(y2 * scale_y)
-            transformed_boxes.append([x1, y1, x2, y2, conflidense, class_id])
+            transformed_boxes.append(Rect(x1, y1, x2, y2, conflidense, class_id))
 
         return transformed_boxes
 
@@ -73,9 +74,14 @@ class YOLODetection:
         boxes = results.boxes.cpu().numpy()
         return self._transform_YOLO_boxes(boxes, img_size, self._img_size)
 
-    def show_results(self, boxes: list, img: cv2.typing.MatLike) -> None:
+    def show_results(self, boxes: list[Rect], img: cv2.typing.MatLike) -> None:
         for box in boxes:
-            x1, y1, x2, y2, conflidense, class_id = box
+            x1 = box.x1
+            y1 = box.y1
+            x2 = box.x2
+            y2 = box.y2
+            conflidense = box.conf
+            class_id = box.cls
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
             label = f'{class_id}: {conflidense:.2f}'
             cv2.putText(img, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)

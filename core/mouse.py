@@ -10,7 +10,6 @@ class MouseListener:
 
     def on_click(self, x, y, button, pressed) -> None:
         if button == mouse.Button.left and not pressed:
-            print('Left btn pressed')
             self._click_function()
 
     def start(self, lightning) -> None:
@@ -18,10 +17,10 @@ class MouseListener:
         self.thread = mouse.Listener(on_click=self.on_click)
         self.thread.start()
 
-    def move(x, y):
+    def move(self, x, y):
         win32api.mouse_event(win32con.MOUSEEVENTF_MOVE, x, y, 0, 0)
 
-    def click():
+    def click(self):
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN,0,0,0,0)
         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP,0,0,0,0)
 
