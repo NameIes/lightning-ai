@@ -1,6 +1,5 @@
 import os
 import cv2
-from mss import mss
 from colorama import Fore, Style
 from pathlib import Path
 from pynput import keyboard
