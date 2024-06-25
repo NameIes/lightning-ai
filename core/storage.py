@@ -7,7 +7,6 @@ class Storage(metaclass=SingletonMeta):
         self._data: dict = {
             'lightning_started': False,
             'team': 'off',
-            'round_playing': False,
         }
 
     def __getitem__(self, key: Any) -> Any:
