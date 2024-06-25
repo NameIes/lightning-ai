@@ -26,7 +26,7 @@ class YOLODetection:
 
         return img
 
-    def resize_image(self, img: cv2.typing.MatLike, size: tuple = None) -> tuple[cv2.typing.MatLike, tuple, tuple]:
+    def resize_image(self, img: cv2.typing.MatLike, size: tuple = None) -> tuple[cv2.typing.MatLike, tuple]:
         if size is None:
             size = self._img_size
 
@@ -37,9 +37,9 @@ class YOLODetection:
         if resized_image.shape[2] == 4:
             resized_image = cv2.cvtColor(resized_image, cv2.COLOR_BGRA2BGR)
 
-        return resized_image, (width, height), (new_width, new_height)
+        return resized_image, (width, height)
 
-    def take_resized_screenshot(self, size: tuple = None) -> tuple[cv2.typing.MatLike, tuple, tuple]:
+    def take_resized_screenshot(self, size: tuple = None) -> tuple[cv2.typing.MatLike, tuple]:
         if size is None:
             size = self._img_size
         img = self.take_screenshot(self._sct, self._process_name)
@@ -63,7 +63,7 @@ class YOLODetection:
 
         return transformed_boxes
 
-    def predict(self, img: cv2.typing.MatLike) -> list:
+    def predict(self, img: cv2.typing.MatLike, img_size: tuple) -> list:
         # ct - 1
         # ct_head - 2
         # t - 3
@@ -71,7 +71,7 @@ class YOLODetection:
         results = self._model(img, imgsz=self._img_size, verbose=False)[0]
 
         boxes = results.boxes.cpu().numpy()
-        return self._transform_YOLO_boxes(boxes, self.screensize, self._img_size)
+        return self._transform_YOLO_boxes(boxes, img_size, self._img_size)
 
     def show_results(boxes: list, img: cv2.typing.MatLike) -> None:
         for box in boxes:
@@ -83,5 +83,5 @@ class YOLODetection:
         cv2.imshow('screen', img)
         cv2.waitKey(1)
 
-    def __del__(self) -> None:
+    def stop(self) -> None:
         cv2.destroyAllWindows()
