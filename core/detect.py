@@ -45,7 +45,7 @@ class YOLODetection:
         img = self.take_screenshot(self._sct, self._process_name)
         return self.resize_image(img, size)
 
-    def _transform_YOLO_boxes(boxes: Optional[np.array], orig_size: tuple, new_size: tuple) -> list[int, int, int, int, float, int]:
+    def _transform_YOLO_boxes(self, boxes: Optional[np.array], orig_size: tuple, new_size: tuple) -> list[int, int, int, int, float, int]:
         orig_width, orig_height = orig_size
         new_width, new_height = new_size
         scale_x = orig_width / new_width
@@ -73,7 +73,7 @@ class YOLODetection:
         boxes = results.boxes.cpu().numpy()
         return self._transform_YOLO_boxes(boxes, img_size, self._img_size)
 
-    def show_results(boxes: list, img: cv2.typing.MatLike) -> None:
+    def show_results(self, boxes: list, img: cv2.typing.MatLike) -> None:
         for box in boxes:
             x1, y1, x2, y2, conflidense, class_id = box
             cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
