@@ -54,14 +54,15 @@ def get_or_create_folder() -> Path:
 def collect_dataset() -> None:
     print_info()
 
+    st = Storage()
     dataset_folder = get_or_create_folder()
     counter = 1
 
     thread = start_keyboard_listener()
-    detect = YOLODetection((1280, 1280), 'cs2.exe')
+    detect = YOLODetection((1280, 1280), st['settings']['process_name'])
 
-    Storage()['lightning_started'] = True
-    while Storage()['lightning_started']:
+    st['lightning_started'] = True
+    while st['lightning_started']:
         img = detect.take_screenshot()
         resized_image, _, _ = detect.resize_image(img, (640, 640))
         cv2.imwrite(str(dataset_folder / f'{counter}_640.jpg'), resized_image)
