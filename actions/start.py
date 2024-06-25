@@ -49,11 +49,11 @@ def start() -> None:
     except KeyboardInterrupt:
         data_storage['lightning_started'] = False
         print(Style.RESET_ALL + 'Lightning AI stopped.')
-    # except Exception as e:
-    #     data_storage['lightning_started'] = False
-    #     print(Fore.RED + 'Lightning AI exception: ' + str(e) + Style.RESET_ALL)
-    #     print('Press any key to continue...')
-    #     msvcrt.getch()
+    except Exception as e:
+        data_storage['lightning_started'] = False
+        print(Fore.RED + 'Lightning AI exception: ' + str(e) + Style.RESET_ALL)
+        print('Press any key to continue...')
+        msvcrt.getch()
 
     keyboard.stop()
     mouse.stop()
