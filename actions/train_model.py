@@ -8,7 +8,7 @@ from core.storage import Storage
 
 def print_selection() -> Path:
     prepared_datasets = Path(Storage()['base_dir']) / 'datasets' / 'prepared'
-    prepared_datasets = [i for i in prepared_datasets.iterdir() if i.is_dir() and i.name.isdigit()]
+    prepared_datasets = [i for i in prepared_datasets.iterdir() if i.is_dir()]
 
     if not prepared_datasets:
         print(Fore.RED + 'No prepared datasets found.' + Style.RESET_ALL)
