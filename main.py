@@ -1,4 +1,5 @@
 import os
+import sys
 import colorama
 import cutie
 import shutil
@@ -19,7 +20,7 @@ def check_lightning_ai() -> None:
     print(colorama.Fore.LIGHTBLUE_EX + 'Checking Lightning AI...' + colorama.Style.RESET_ALL)
 
     base_dir = Path(__file__).parent
-    Storage().set_data('base_dir', base_dir)
+    Storage()['base_dir'] = base_dir
 
     allowed_chars = ascii_letters + digits + '.:/\\-_ '
     for char in str(base_dir):
@@ -112,7 +113,8 @@ def show_menu() -> None:
 
 if __name__ == '__main__':
     check_lightning_ai()
-    check_cs2()
-    check_gsi()
+    if '--checks-off' not in sys.argv:
+        check_cs2()
+        check_gsi()
     print_checks_passed()
     show_menu()
