@@ -54,11 +54,11 @@ class Lightning:
         return rects
 
     def aimbot(self, boxes):
-        if self._st['aimbot_priority'] == 'Head':
+        if self._st['settings']['aimbot_priority'] == 'Head':
             heads = self.get_heads(boxes)
             if len(heads) > 0:
                 boxes = heads
-        if self._st['aimbot_priority'] == 'Body':
+        if self._st['settings']['aimbot_priority'] == 'Body':
             bodies = self.get_bodies(boxes)
             if len(bodies) > 0:
                 boxes = bodies
@@ -67,7 +67,7 @@ class Lightning:
         near_rect = min(boxes, key=lambda x: self.vector_length(cur[0], cur[1], x.get_center()[0], x.get_center()[1]))
 
         distance = self.vector_length(cur[0], cur[1], near_rect.get_center()[0], near_rect.get_center()[1])
-        if int(distance) > self._st['aim_max_distance']:
+        if int(distance) > self._st['settings']['aim_max_distance']:
             return
 
         x_shift = near_rect.get_center()[0] - cur[0]
@@ -78,8 +78,8 @@ class Lightning:
         cur = (self.screen_size[0] // 2, self.screen_size[1] // 2)
         for box in boxes:
             if self.is_cursor_in_rect(cur, box):
-                if self._st['aim_delay'] > 0:
-                    sleep(self._st['aim_delay'] / 1000)
+                if self._st['settings']['aim_delay'] > 0:
+                    sleep(self._st['settings']['aim_delay'] / 1000)
                 self._mouse.click()
 
     def inuria(self, boxes):
@@ -89,7 +89,7 @@ class Lightning:
         if self._st['team'] == 'off':
             return
 
-        aim_type = self._st['aim_type']
+        aim_type = self._st['settings']['aim_type']
 
         if aim_type == 'aimbot':
             self.aimbot(boxes)
