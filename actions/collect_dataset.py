@@ -58,7 +58,7 @@ def collect_dataset() -> None:
     counter = 1
 
     thread = start_keyboard_listener()
-    detect = YOLODetection((1280, 1280), 'Code.exe')
+    detect = YOLODetection((1280, 1280), 'cs2.exe')
 
     Storage()['lightning_started'] = True
     while Storage()['lightning_started']:

@@ -32,7 +32,7 @@ def start() -> None:
     gsi_server = GSIServerManager(('localhost', 8003), 'MYTOKENHERE')
     gsi_server.start()
 
-    detection = YOLODetection((1280, 1280), 'code.exe')
+    detection = YOLODetection((1280, 1280), 'cs2.exe')
     lightning = Lightning(mouse, detection.screensize)
     mouse.start(lightning)
 

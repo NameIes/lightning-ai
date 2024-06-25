@@ -6,18 +6,28 @@ from core.storage import Storage
 
 
 def print_selection() -> Path:
+    prepared_datasets = Path(Storage()['base_dir']) / 'datasets' / 'prepared'
+    prepared_datasets = [i for i in prepared_datasets.iterdir() if i.is_dir() and i.name.isdigit()]
+
+    if not prepared_datasets:
+        print(Fore.RED + 'No prepared datasets found.' + Style.RESET_ALL)
+        return None
+
     print('{}Please select dataset for training:{}'.format(
         Fore.GREEN,
         Style.RESET_ALL
     ))
-    prepared_datasets = Path(Storage()['base_dir']) / 'datasets' / 'prepared'
-    prepared_datasets = [i for i in prepared_datasets.iterdir() if i.is_dir() and i.name.isdigit()]
 
     return prepared_datasets[cutie.select(prepared_datasets)]
 
 
 def train_model() -> None:
     selected_dataset = print_selection()
+    if selected_dataset is None:
+        print(Fore.GREEN + 'Press any key and Enter to exit.' + Style.RESET_ALL)
+        input()
+        return
+
     model = YOLO(Path(Storage()['base_dir']) / 'models' / 'pretraining.pt')
 
     model.train(
