@@ -3,6 +3,8 @@ import sys
 import colorama
 import cutie
 import shutil
+import json
+import atexit
 from time import sleep
 from pathlib import Path
 from string import ascii_letters, digits
@@ -32,6 +34,14 @@ def check_lightning_ai() -> None:
                 ' '.join(allowed_chars) + colorama.Style.RESET_ALL)
             exit()
 
+    if not (base_dir / 'config' / 'settings.json').exists():
+        print(colorama.Fore.RED + 'Lightning AI config not found.' + colorama.Style.RESET_ALL)
+        print(colorama.Fore.LIGHTBLUE_EX + 'You can download it from ' + colorama.Fore.LIGHTWHITE_EX + \
+            'https://lightning.ai' + colorama.Style.RESET_ALL)
+        print(colorama.Fore.LIGHTBLUE_EX + 'Then place it in ' + colorama.Fore.YELLOW + \
+            'config' + colorama.Fore.LIGHTBLUE_EX + ' folder.' + colorama.Style.RESET_ALL)
+        exit()
+
     if not (base_dir / 'models' / 'pretraining.pt').exists():
         print(colorama.Fore.RED + 'Lightning AI model not found.' + colorama.Style.RESET_ALL)
         print(colorama.Fore.LIGHTBLUE_EX + 'You can download it from ' + colorama.Fore.LIGHTWHITE_EX + \
@@ -39,6 +49,9 @@ def check_lightning_ai() -> None:
         print(colorama.Fore.LIGHTBLUE_EX + 'Then place it in ' + colorama.Fore.YELLOW + \
             'models' + colorama.Fore.LIGHTBLUE_EX + ' folder.' + colorama.Style.RESET_ALL)
         exit()
+
+    with open(base_dir / 'config' / 'settings.json') as f:
+        Storage()['settings'] = json.load(f)
 
 
 def check_cs2() -> None:
@@ -111,10 +124,16 @@ def show_menu() -> None:
         os.system('cls')
 
 
+def save_settings() -> None:
+    with open(Storage()['base_dir'] / 'config' / 'settings.json', 'w') as f:
+        json.dump(Storage()['settings'], f, indent=4)
+
+
 if __name__ == '__main__':
     check_lightning_ai()
     if '--checks-off' not in sys.argv:
         check_cs2()
         check_gsi()
     print_checks_passed()
+    atexit.register(save_settings)
     show_menu()

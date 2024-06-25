@@ -6,7 +6,6 @@ class Storage(metaclass=SingletonMeta):
     def __init__(self) -> None:
         self._data: dict = {
             'lightning_started': False,
-            'sensitivity': 0.5,
             'team': 'off',
             'round_playing': False,
         }

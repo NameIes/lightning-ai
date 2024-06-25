@@ -1,0 +1,8 @@
+{
+    "process_name": "cs2.exe",
+    "show_yolo": false,
+    "aim_type": "inuria",
+    "aim_max_distance": 100,
+    "aim_priority": "Head+Body",
+    "aim_delay": 0
+}
