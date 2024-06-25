@@ -22,7 +22,7 @@ class KeyboardListener:
             elif st['team'] == 'all':
                 st['team'] = 'off'
 
-            print(Fore.GREEN + 'Team: ' + st.data['team'] + Style.RESET_ALL)
+            print(Fore.GREEN + 'Team: ' + st['team'] + Style.RESET_ALL)
 
     def start(self) -> Thread:
         listener = keyboard.Listener(on_press=self.on_press)

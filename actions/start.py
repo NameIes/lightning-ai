@@ -22,6 +22,7 @@ def start() -> None:
     print_info()
 
     data_storage = Storage()
+    data_storage['lightning_started'] = True
 
     keyboard = KeyboardListener()
     keyboard.start()
@@ -31,9 +32,12 @@ def start() -> None:
     gsi_server = GSIServerManager(('localhost', 8003), 'MYTOKENHERE')
     gsi_server.start()
 
-    detection = YOLODetection((1280, 1280), 'cs2.exe')
+    detection = YOLODetection((1280, 1280), 'code.exe')
     lightning = Lightning(mouse, detection.screensize)
     mouse.start(lightning)
+
+    while data_storage['lightning_started']:
+        pass
 
     keyboard.stop()
     mouse.stop()

@@ -34,7 +34,7 @@ def start_keyboard_listener() -> Thread:
 
 
 def get_or_create_folder() -> Path:
-    datasets = Storage().data['base_dir'] / 'datasets' / 'collected'
+    datasets = Storage()['base_dir'] / 'datasets' / 'collected'
 
     if not datasets.exists():
         datasets.mkdir(parents=True)
@@ -59,11 +59,11 @@ def collect_dataset() -> None:
     counter = 1
 
     thread = start_keyboard_listener()
-    detect = YOLODetection((1280, 1280), 'cs2.exe')
+    detect = YOLODetection((1280, 1280), 'Code.exe')
 
     Storage()['lightning_started'] = True
     while Storage()['lightning_started']:
-        img = detect.take_screenshot('cs2.exe')
+        img = detect.take_screenshot()
         resized_image, _, _ = detect.resize_image(img, (640, 640))
         cv2.imwrite(str(dataset_folder / f'{counter}_640.jpg'), resized_image)
         resized_image, _, _ = detect.resize_image(img, (1280, 1280))

@@ -19,8 +19,8 @@ class YOLODetection:
         user32 = ctypes.windll.user32
         self.screensize = user32.GetSystemMetrics(0), user32.GetSystemMetrics(1)
 
-    def take_screenshot(self, process_name: str) -> cv2.typing.MatLike:
-        box = get_rect_by_name(process_name)
+    def take_screenshot(self) -> cv2.typing.MatLike:
+        box = get_rect_by_name(self._process_name)
         sct_img = self._sct.grab(box)
         img = np.array(sct_img)
 
