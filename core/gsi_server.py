@@ -1,5 +1,6 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
+from threading import Thread
+from http.server import BaseHTTPRequestHandler, HTTPServer
 from core.storage import Storage
 
 
@@ -18,7 +19,7 @@ class RequestHandler(BaseHTTPRequestHandler):
         if not self.authenticate_payload(payload):
             return None
 
-        Storage().set_data('gsi_data', payload)
+        Storage()['gsi_data'] = payload
 
         self.send_header('Content-type', 'text/html')
         self.send_response(200)
@@ -34,3 +35,17 @@ class RequestHandler(BaseHTTPRequestHandler):
             return payload['round']['phase']
         else:
             return None
+
+
+class GSIServerManager:
+    def __init__(self, server_address, token):
+        self.server = GSIServer(server_address, token, RequestHandler)
+        self._thread = None
+
+    def start(self):
+        self._thread = Thread(target=self.server.serve_forever)
+        self._thread.start()
+
+    def stop(self):
+        self.server.server_close()
+        self._thread.join()

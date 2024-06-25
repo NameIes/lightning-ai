@@ -10,7 +10,7 @@ def print_selection() -> Path:
         Fore.GREEN,
         Style.RESET_ALL
     ))
-    prepared_datasets = Path(Storage().data['base_dir']) / 'datasets' / 'prepared'
+    prepared_datasets = Path(Storage()['base_dir']) / 'datasets' / 'prepared'
     prepared_datasets = [i for i in prepared_datasets.iterdir() if i.is_dir() and i.name.isdigit()]
 
     return prepared_datasets[cutie.select(prepared_datasets)]
@@ -18,7 +18,7 @@ def print_selection() -> Path:
 
 def train_model() -> None:
     selected_dataset = print_selection()
-    model = YOLO(Path(Storage().data['base_dir']) / 'models' / 'pretraining.pt')
+    model = YOLO(Path(Storage()['base_dir']) / 'models' / 'pretraining.pt')
 
     model.train(
         data=str(selected_dataset / 'data.yaml'),

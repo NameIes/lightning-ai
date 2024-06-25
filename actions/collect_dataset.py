@@ -7,7 +7,7 @@ from pynput import keyboard
 from threading import Thread
 from time import sleep
 from core.storage import Storage
-from utils.capture import take_screenshot, resize_image
+from core.detect import YOLODetection
 
 
 def print_info() -> None:
@@ -22,7 +22,7 @@ def print_info() -> None:
 
 def on_press(key) -> None:
     if key == keyboard.Key.pause:
-        Storage().set_data('lightning_started', False)
+        Storage()['lightning_started'] = False
 
 
 def start_keyboard_listener() -> Thread:
@@ -55,18 +55,18 @@ def get_or_create_folder() -> Path:
 def collect_dataset() -> None:
     print_info()
 
-    sct = mss()
     dataset_folder = get_or_create_folder()
     counter = 1
 
     thread = start_keyboard_listener()
+    detect = YOLODetection((1280, 1280))
 
-    Storage().set_data('lightning_started', True)
-    while Storage().data['lightning_started']:
-        img = take_screenshot(sct, 'cs2.exe')
-        resized_image, _, _ = resize_image(img, (640, 640))
+    Storage()['lightning_started'] = True
+    while Storage()['lightning_started']:
+        img = detect.take_screenshot('cs2.exe')
+        resized_image, _, _ = detect.resize_image(img, (640, 640))
         cv2.imwrite(str(dataset_folder / f'{counter}_640.jpg'), resized_image)
-        resized_image, _, _ = resize_image(img, (1280, 1280))
+        resized_image, _, _ = detect.resize_image(img, (1280, 1280))
         cv2.imwrite(str(dataset_folder / f'{counter}_1280.jpg'), resized_image)
         counter += 1
         sleep(0.5)
