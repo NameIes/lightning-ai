@@ -8,11 +8,12 @@ from utils.window_box import get_rect_by_name
 
 
 class YOLODetection:
-    def __init__(self, img_size: tuple) -> None:
+    def __init__(self, img_size: tuple, process_name: str) -> None:
         self._model = YOLO(Storage()['base_dir'] / 'models' / 'best.pt')
         self._model.to('cuda')
         self._sct = mss()
         self._img_size = img_size
+        self._process_name = process_name
 
         import ctypes
         user32 = ctypes.windll.user32
@@ -25,19 +26,24 @@ class YOLODetection:
 
         return img
 
-    def resize_image(self, img: cv2.typing.MatLike) -> tuple[cv2.typing.MatLike, tuple, tuple]:
+    def resize_image(self, img: cv2.typing.MatLike, size: tuple = None) -> tuple[cv2.typing.MatLike, tuple, tuple]:
+        if size is None:
+            size = self._img_size
+
         height, width = img.shape[:2]
-        new_width = self._img_size[0]
-        new_height = self._img_size[0]
+        new_width = size[0]
+        new_height = size[1]
         resized_image = cv2.resize(img, (new_width, new_height), interpolation=cv2.INTER_CUBIC)
         if resized_image.shape[2] == 4:
             resized_image = cv2.cvtColor(resized_image, cv2.COLOR_BGRA2BGR)
 
         return resized_image, (width, height), (new_width, new_height)
 
-    def take_resized_screenshot(self, size: tuple = (1280, 1280)) -> tuple[cv2.typing.MatLike, tuple, tuple]:
-        img = self.take_screenshot(self._sct, 'cs2.exe')
-        return self.resize_image(img)
+    def take_resized_screenshot(self, size: tuple = None) -> tuple[cv2.typing.MatLike, tuple, tuple]:
+        if size is None:
+            size = self._img_size
+        img = self.take_screenshot(self._sct, self._process_name)
+        return self.resize_image(img, size)
 
     def _transform_YOLO_boxes(boxes: Optional[np.array], orig_size: tuple, new_size: tuple) -> list[int, int, int, int, float, int]:
         orig_width, orig_height = orig_size
