@@ -1,29 +1,18 @@
-from typing import Any, Type
-from abc import ABC, abstractmethod
+from typing import Any
 from utils.singleton import SingletonMeta
-
-
-class Observer(ABC):
-    @abstractmethod
-    def notify(self, data: dict) -> None:
-        pass
 
 
 class Storage(metaclass=SingletonMeta):
     def __init__(self) -> None:
-        self.data: dict = {
+        self._data: dict = {
             'lightning_started': False,
             'sensitivity': 0.5,
             'team': 'off',
             'round_playing': False,
         }
 
-        self._observers: list[Type[Observer]] = []
+    def __getitem__(self, key: Any) -> Any:
+        return self._data[key]
 
-    def register_observer(self, observer: Type[Observer]) -> None:
-        self._observers.append(observer)
-
-    def set_data(self, key: Any, value: Any) -> None:
-        self.data[key] = value
-        for observer in self._observers:
-            observer.notify(self.data)
+    def __setitem__(self, key: Any, value: Any) -> None:
+        self._data[key] = value
