@@ -40,6 +40,8 @@ def train_model() -> None:
         name='trained',
     )
 
+    # TODO: Copy best.pt to models and remove 'runs'
+
     print(Fore.GREEN + 'Model trained successfully.' + Style.RESET_ALL)
-    print(Fore.GREEN + 'Press any key and Enter to exit.' + Style.RESET_ALL)
-    input()
+    print(Fore.GREEN + 'Press any key to exit.' + Style.RESET_ALL)
+    msvcrt.getch()
