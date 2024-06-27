@@ -5,10 +5,10 @@ from pathlib import Path
 
 CS2_APP_ID = '730'
 STEAM_REGISTRY_KEY = "SOFTWARE\\WOW6432Node\\Valve\\Steam"
-CS2_PATH = "\\steamapps\\common\\cs2"
-GSI_PATH = "\\game\\cs2\\cfg\\gamestate_integration_GSI.cfg"
-LIBRARY_FOLDERS_PATH = "\\steamapps\\libraryfolders.vdf"
-APP_MANIFEST_PATH = f"\\steamapps\\appmanifest_{CS2_APP_ID}.acf"
+CS2_PATH = "steamapps\\common\\Counter-Strike Global Offensive"
+GSI_PATH = "game\\csgo\\cfg\\gamestate_integration_GSI.cfg"
+LIBRARY_FOLDERS_PATH = "steamapps\\libraryfolders.vdf"
+APP_MANIFEST_PATH = f"steamapps\\appmanifest_{CS2_APP_ID}.acf"
 
 
 def get_steam_path() -> Path:

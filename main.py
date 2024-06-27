@@ -81,7 +81,7 @@ def check_gsi() -> None:
     cs2_gsi = get_gsi_config_path()
     if not cs2_gsi.exists():
         cs2_gsi.parent.mkdir(parents=True, exist_ok=True)
-    lightning_gsi = Storage().data['base_dir'] / 'config' / 'gamestate_integration_GSI.cfg'
+    lightning_gsi = Storage()['base_dir'] / 'config' / 'gamestate_integration_GSI.cfg'
 
     if not lightning_gsi.exists():
         print(colorama.Fore.RED + 'GSI config not found. Please reinstall Lightning AI.' + colorama.Style.RESET_ALL)
